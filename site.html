@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Roblox Portfolio</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a202c; /* Dark background */
+            color: #e2e8f0; /* Light text */
+        }
+        .section-title {
+            position: relative;
+            display: inline-block;
+            padding-bottom: 8px; /* Space for the underline */
+            margin-bottom: 24px;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 3px;
+            background-color: #63b3ed; /* Blue underline */
+            border-radius: 9999px; /* Rounded ends for the underline */
+        }
+    </style>
+</head>
+<body>
+    <div class="min-h-screen flex flex-col items-center py-10 px-4 sm:px-6 lg:px-8">
+        <!-- Header Section -->
+        <header class="w-full max-w-4xl text-center mb-12">
+            <h1 class="text-5xl sm:text-6xl font-extrabold text-white mb-4 drop-shadow-lg">
+                My Roblox Portfolio
+            </h1>
+            <p class="text-xl sm:text-2xl text-blue-300">
+                Showcasing my work in GFX, Server Administration, Moderation, and Animation.
+            </p>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="w-full max-w-4xl bg-gray-800 p-8 rounded-2xl shadow-xl space-y-12">
+
+            <!-- GFX Section -->
+            <section id="gfx" class="p-6 bg-gray-900 rounded-xl shadow-lg">
+                <h2 class="text-4xl font-bold text-blue-400 section-title mb-6">Graphics (GFX)</h2>
+                <p class="text-lg text-gray-300 mb-6">
+                    Here you'll find examples of my graphic design work for Roblox, including thumbnails, icons, and renders. I focus on creating eye-catching visuals that stand out.
+                </p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- GFX Image Example 1 -->
+                    <div class="bg-gray-700 rounded-lg overflow-hidden shadow-md group">
+                        <img src="https://cdn.discordapp.com/attachments/962773962482417755/1383496577003552920/Screenshot_2024-10-02_190901.png?ex=684f0118&is=684daf98&hm=5742044fd8590d787b7c1edeb347723fe0a9425ba18aed0e477a40fc0f1ddec0&"
+                             class="w-full h-48 object-cover rounded-t-lg transition-transform duration-300 group-hover:scale-105"
+                             onerror="this.onerror=null;this.src='https://placehold.co/400x250/334155/e2e8f0?text=Image+Load+Error';"
+                        >
+                        <div class="p-4">
+                            <h3 class="text-xl font-semibold text-white mb-2">Game Thumbnail</h3>
+                            <p class="text-gray-400 text-sm">A vibrant thumbnail designed for an adventure game.</p>
+                        </div>
+                    </div>
+                    <!-- GFX Image Example 2 -->
+                    <div class="bg-gray-700 rounded-lg overflow-hidden shadow-md group">
+                        <img src="https://cdn.discordapp.com/attachments/962773962482417755/1383496577514995896/Screenshot_2024-10-02_191923.png?ex=684f0118&is=684daf98&hm=c804d15766c39636706634cbf908e5fece3486e33f2490368b728d06bb78af46&"
+                             class="w-full h-48 object-cover rounded-t-lg transition-transform duration-300 group-hover:scale-105"
+                             onerror="this.onerror=null;this.src='https://placehold.co/400x250/334155/e2e8f0?text=Image+Load+Error';"
+                        >
+                        <div class="p-4">
+                            <h3 class="text-xl font-semibold text-white mb-2">Profile Picture</h3>
+                            <p class="text-gray-400 text-sm">Custom render for a Roblox avatar profile.</p>
+                        </div>
+                    </div>
+                    <!-- GFX Image Example 3 -->
+                    <div class="bg-gray-700 rounded-lg overflow-hidden shadow-md group">
+                        <img src="https://cdn.discordapp.com/attachments/962773962482417755/1383496577896939611/Screenshot_2024-11-24_212305.png?ex=684f0118&is=684daf98&hm=78b900913b933197ffee09e2c063878edf98f52b193836a15eb9de97f97af65a&"
+                             class="w-full h-48 object-cover rounded-t-lg transition-transform duration-300 group-hover:scale-105"
+                             onerror="this.onerror=null;this.src='https://placehold.co/400x250/334155/e2e8f0?text=Image+Load+Error';"
+                        >
+                        <div class="p-4">
+                            <h3 class="text-xl font-semibold text-white mb-2">Advertisement Banner</h3>
+                            <p class="text-gray-400 text-sm">Engaging banner for in-game advertisements.</p>
+                        </div>
+                    </div>
+                    <!-- Add more GFX images here as needed -->
+                </div>
+                <!-- New GFX Idea Generator Section -->
+                <div class="mt-8 text-center">
+                    <button id="generateGfxIdeaBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-xl shadow-lg transition duration-300 transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75">
+                        ✨ Generate GFX Idea
+                    </button>
+                    <div id="gfxIdeaOutput" class="mt-6 p-4 bg-gray-700 rounded-lg text-gray-200 hidden">
+                        <p id="gfxIdeaText" class="italic"></p>
+                        <div id="loadingGfx" class="hidden mt-2 text-blue-300">Generating idea...</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Server Setup (Admin) Section -->
+            <section id="server-setup" class="p-6 bg-gray-900 rounded-xl shadow-lg">
+                <h2 class="text-4xl font-bold text-green-400 section-title mb-6">Server Setup (Admin)</h2>
+                <p class="text-lg text-gray-300 mb-6">
+                    My expertise includes setting up and configuring Roblox game servers, managing permissions, and implementing administrative tools to ensure smooth operation and player safety. For **Discord-based server administration**, please contact me: <span class="font-bold text-blue-300">Kibrisky</span>.
+                </p>
+                <ul class="list-disc list-inside space-y-2 text-gray-300 text-base">
+                    <li>Implementing custom admin commands and systems.</li>
+                    <li>Configuring permissions for ranks and roles.</li>
+                    <li>Setting up anti-exploit measures and moderation bots.</li>
+                    <li>Managing server performance and stability.</li>
+                    <li>Experience with popular admin panels like Adonis Admin, HD Admin, etc.</li>
+                </ul>
+                <!-- You can add screenshots of your admin panel setup or configuration files here -->
+                 <div class="mt-6 text-center text-gray-400 italic">
+                    <p>
+                        Screenshots demonstrating server setup or admin panel configuration can be placed here.
+                        For example: <code class="bg-gray-700 p-1 rounded">
+                            &lt;img src="your-server-setup-screenshot.jpg" alt="Server Setup" class="w-full h-auto rounded-lg mt-4"&gt;
+                        </code>
+                    </p>
+                </div>
+            </section>
+
+            <!-- Moderator Section -->
+            <section id="moderator" class="p-6 bg-gray-900 rounded-xl shadow-lg">
+                <h2 class="text-4xl font-bold text-yellow-400 section-title mb-6">Moderator</h2>
+                <p class="text-lg text-gray-300 mb-6">
+                    Experienced in maintaining a positive and safe community environment. My responsibilities as a moderator include enforcing rules, handling player reports, and resolving conflicts efficiently. For **Discord-based moderation services**, you can reach me: <span class="font-bold text-blue-300">Kibrisky</span>.
+                </p>
+                <ul class="list-disc list-inside space-y-2 text-gray-300 text-base">
+                    <li>Active monitoring of in-game chat and player behavior.</li>
+                    <li>Handling reports of rule violations and issuing appropriate punishments.</li>
+                    <li>Mediating disputes between players.</li>
+                    <li>Knowledge of Roblox Community Standards.</li>
+                    <li>Quick and decisive action in high-pressure situations.</li>
+                </ul>
+                <!-- You can describe specific moderation scenarios or show anonymized chat logs if appropriate -->
+                <div class="mt-6 text-center text-gray-400 italic">
+                    <p>
+                        You could include anonymized screenshots of moderation logs or examples of handled situations here.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Basic Animation Section -->
+            <section id="animation" class="p-6 bg-gray-900 rounded-xl shadow-lg">
+                <h2 class="text-4xl font-bold text-purple-400 section-title mb-6">Basic Animation</h2>
+                <p class="text-lg text-gray-300 mb-6">
+                    I have fundamental skills in creating smooth and engaging animations for Roblox characters, tools, and environmental elements, enhancing the overall player experience.
+                </p>
+                <ul class="list-disc list-inside space-y-2 text-gray-300 text-base">
+                    <li>Character idle, walk, run cycles.</li>
+                    <li>Tool animations (e.g., swinging a sword, using a pickaxe).</li>
+                    <li>Simple environmental animations (e.g., rotating objects).</li>
+                    <li>Understanding of animation principles for fluid movement.</li>
+                </ul>
+                <!-- For animations, it's best to embed short video clips or GIFs -->
+                <div class="mt-6 text-center text-gray-400 italic">
+                    <p>
+                        You can embed short video clips (e.g., from YouTube, Vimeo, or directly hosted) or GIFs here.
+                    </p>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer Section -->
+        <footer class="w-full max-w-4xl text-center mt-12 py-6 border-t-2 border-gray-700">
+            <p class="text-gray-500 text-lg">
+                &copy; 2025 My Roblox Portfolio. All rights reserved.
+            </p>
+            <p class="text-gray-500 text-sm mt-2">
+                Contact: your.email@example.com (or via Discord: Kibrisky)
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const generateGfxIdeaBtn = document.getElementById('generateGfxIdeaBtn');
+            const gfxIdeaOutput = document.getElementById('gfxIdeaOutput');
+            const gfxIdeaText = document.getElementById('gfxIdeaText');
+            const loadingGfx = document.getElementById('loadingGfx');
+
+            generateGfxIdeaBtn.addEventListener('click', async () => {
+                gfxIdeaOutput.classList.add('hidden'); // Hide previous output
+                loadingGfx.classList.remove('hidden'); // Show loading indicator
+                gfxIdeaText.textContent = ''; // Clear previous text
+
+                let chatHistory = [];
+                const prompt = "Generate a creative and concise idea for a Roblox GFX (Graphic Design) project. Focus on visual concepts, themes, or character poses. For example: 'A vibrant game thumbnail for an obby featuring a daring player jumping over lava.' or 'A profile picture of a Roblox avatar with a cool, stylized background.' Make it just one sentence.";
+                chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+
+                const payload = { contents: chatHistory };
+                const apiKey = ""; // Canvas will automatically provide the API key
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+
+                    const result = await response.json();
+
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        const idea = result.candidates[0].content.parts[0].text;
+                        gfxIdeaText.textContent = idea;
+                    } else {
+                        gfxIdeaText.textContent = "Could not generate an idea. Please try again.";
+                        console.error("Gemini API response structure unexpected:", result);
+                    }
+                } catch (error) {
+                    gfxIdeaText.textContent = `Error generating idea: ${error.message}`;
+                    console.error("Error calling Gemini API:", error);
+                } finally {
+                    loadingGfx.classList.add('hidden'); // Hide loading indicator
+                    gfxIdeaOutput.classList.remove('hidden'); // Show output area
+                }
+            });
+        });
+    </script>
+</body>
+</html>
