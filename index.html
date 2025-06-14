@@ -55,8 +55,8 @@
                     <!-- GFX Image Example 1 -->
                     <div class="bg-gray-700 rounded-lg overflow-hidden shadow-md group">
                         <img src="https://cdn.discordapp.com/attachments/962773962482417755/1383496577003552920/Screenshot_2024-10-02_190901.png?ex=684f0118&is=684daf98&hm=5742044fd8590d787b7c1edeb347723fe0a9425ba18aed0e477a40fc0f1ddec0&"
-                             class="w-full h-48 object-cover rounded-t-lg transition-transform duration-300 group-hover:scale-105"
-                             onerror="this.onerror=null;this.src='https://placehold.co/400x250/334155/e2e8f0?text=Image+Load+Error';"
+                                 class="w-full h-48 object-cover rounded-t-lg transition-transform duration-300 group-hover:scale-105"
+                                 onerror="this.onerror=null;this.src='https://placehold.co/400x250/334155/e2e8f0?text=Image+Load+Error';"
                         >
                         <div class="p-4">
                             <h3 class="text-xl font-semibold text-white mb-2">Game Thumbnail</h3>
@@ -66,8 +66,8 @@
                     <!-- GFX Image Example 2 -->
                     <div class="bg-gray-700 rounded-lg overflow-hidden shadow-md group">
                         <img src="https://cdn.discordapp.com/attachments/962773962482417755/1383496577514995896/Screenshot_2024-10-02_191923.png?ex=684f0118&is=684daf98&hm=c804d15766c39636706634cbf908e5fece3486e33f2490368b728d06bb78af46&"
-                             class="w-full h-48 object-cover rounded-t-lg transition-transform duration-300 group-hover:scale-105"
-                             onerror="this.onerror=null;this.src='https://placehold.co/400x250/334155/e2e8f0?text=Image+Load+Error';"
+                                 class="w-full h-48 object-cover rounded-t-lg transition-transform duration-300 group-hover:scale-105"
+                                 onerror="this.onerror=null;this.src='https://placehold.co/400x250/334155/e2e8f0?text=Image+Load+Error';"
                         >
                         <div class="p-4">
                             <h3 class="text-xl font-semibold text-white mb-2">Profile Picture</h3>
@@ -77,8 +77,8 @@
                     <!-- GFX Image Example 3 -->
                     <div class="bg-gray-700 rounded-lg overflow-hidden shadow-md group">
                         <img src="https://cdn.discordapp.com/attachments/962773962482417755/1383496577896939611/Screenshot_2024-11-24_212305.png?ex=684f0118&is=684daf98&hm=78b900913b933197ffee09e2c063878edf98f52b193836a15eb9de97f97af65a&"
-                             class="w-full h-48 object-cover rounded-t-lg transition-transform duration-300 group-hover:scale-105"
-                             onerror="this.onerror=null;this.src='https://placehold.co/400x250/334155/e2e8f0?text=Image+Load+Error';"
+                                 class="w-full h-48 object-cover rounded-t-lg transition-transform duration-300 group-hover:scale-105"
+                                 onerror="this.onerror=null;this.src='https://placehold.co/400x250/334155/e2e8f0?text=Image+Load+Error';"
                         >
                         <div class="p-4">
                             <h3 class="text-xl font-semibold text-white mb-2">Advertisement Banner</h3>
@@ -86,16 +86,6 @@
                         </div>
                     </div>
                     <!-- Add more GFX images here as needed -->
-                </div>
-                <!-- New GFX Idea Generator Section -->
-                <div class="mt-8 text-center">
-                    <button id="generateGfxIdeaBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-xl shadow-lg transition duration-300 transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75">
-                        ✨ Generate GFX Idea
-                    </button>
-                    <div id="gfxIdeaOutput" class="mt-6 p-4 bg-gray-700 rounded-lg text-gray-200 hidden">
-                        <p id="gfxIdeaText" class="italic"></p>
-                        <div id="loadingGfx" class="hidden mt-2 text-blue-300">Generating idea...</div>
-                    </div>
                 </div>
             </section>
 
@@ -112,15 +102,6 @@
                     <li>Managing server performance and stability.</li>
                     <li>Experience with popular admin panels like Adonis Admin, HD Admin, etc.</li>
                 </ul>
-                <!-- You can add screenshots of your admin panel setup or configuration files here -->
-                 <div class="mt-6 text-center text-gray-400 italic">
-                    <p>
-                        Screenshots demonstrating server setup or admin panel configuration can be placed here.
-                        For example: <code class="bg-gray-700 p-1 rounded">
-                            &lt;img src="your-server-setup-screenshot.jpg" alt="Server Setup" class="w-full h-auto rounded-lg mt-4"&gt;
-                        </code>
-                    </p>
-                </div>
             </section>
 
             <!-- Moderator Section -->
@@ -175,58 +156,5 @@
             </p>
         </footer>
     </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const generateGfxIdeaBtn = document.getElementById('generateGfxIdeaBtn');
-            const gfxIdeaOutput = document.getElementById('gfxIdeaOutput');
-            const gfxIdeaText = document.getElementById('gfxIdeaText');
-            const loadingGfx = document.getElementById('loadingGfx');
-
-            generateGfxIdeaBtn.addEventListener('click', async () => {
-                gfxIdeaOutput.classList.add('hidden'); // Hide previous output
-                loadingGfx.classList.remove('hidden'); // Show loading indicator
-                gfxIdeaText.textContent = ''; // Clear previous text
-
-                let chatHistory = [];
-                const prompt = "Generate a creative and concise idea for a Roblox GFX (Graphic Design) project. Focus on visual concepts, themes, or character poses. For example: 'A vibrant game thumbnail for an obby featuring a daring player jumping over lava.' or 'A profile picture of a Roblox avatar with a cool, stylized background.' Make it just one sentence.";
-                chatHistory.push({ role: "user", parts: [{ text: prompt }] });
-
-                const payload = { contents: chatHistory };
-                const apiKey = ""; // Canvas will automatically provide the API key
-                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
-
-                try {
-                    const response = await fetch(apiUrl, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
-
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-
-                    const result = await response.json();
-
-                    if (result.candidates && result.candidates.length > 0 &&
-                        result.candidates[0].content && result.candidates[0].content.parts &&
-                        result.candidates[0].content.parts.length > 0) {
-                        const idea = result.candidates[0].content.parts[0].text;
-                        gfxIdeaText.textContent = idea;
-                    } else {
-                        gfxIdeaText.textContent = "Could not generate an idea. Please try again.";
-                        console.error("Gemini API response structure unexpected:", result);
-                    }
-                } catch (error) {
-                    gfxIdeaText.textContent = `Error generating idea: ${error.message}`;
-                    console.error("Error calling Gemini API:", error);
-                } finally {
-                    loadingGfx.classList.add('hidden'); // Hide loading indicator
-                    gfxIdeaOutput.classList.remove('hidden'); // Show output area
-                }
-            });
-        });
-    </script>
 </body>
 </html>
