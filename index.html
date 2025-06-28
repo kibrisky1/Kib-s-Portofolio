@@ -3,20 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Roblox Portfolio</title>
+    <title id="pageTitle">My Portfolio</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        /* Custom styles for the portfolio */
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #1a202c; /* Dark background */
+            background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%); /* Dark gradient background */
             color: #e2e8f0; /* Light text */
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
         .section-title {
             position: relative;
             display: inline-block;
             padding-bottom: 8px; /* Space for the underline */
             margin-bottom: 24px;
+            /* Text shadow for titles */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
         .section-title::after {
             content: '';
@@ -24,125 +30,469 @@
             left: 0;
             bottom: 0;
             width: 100%;
-            height: 3px;
+            height: 4px; /* Thicker underline */
             background-color: #63b3ed; /* Blue underline */
             border-radius: 9999px; /* Rounded ends for the underline */
+            transform: scaleX(0); /* Start hidden for animation */
+            transform-origin: bottom left;
+            transition: transform 0.3s ease-out; /* Animation for underline */
+        }
+        .section-title:hover::after {
+            transform: scaleX(1); /* Expand on hover */
+        }
+        .card {
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+        .card:hover {
+            transform: translateY(-8px) scale(1.02); /* Lift and slightly enlarge on hover */
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4); /* Stronger shadow on hover */
+        }
+        .animate-fade-in {
+            animation: fadeIn 1s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* Hero section background animation */
+        .hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+        .hero-background::before {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: rgba(99, 179, 237, 0.1); /* Light blue glow */
+            border-radius: 50%;
+            filter: blur(100px);
+            animation: float1 15s infinite ease-in-out alternate;
+            top: 10%;
+            left: 5%;
+        }
+        .hero-background::after {
+            content: '';
+            position: absolute;
+            width: 250px;
+            height: 250px;
+            background: rgba(164, 202, 254, 0.15); /* Lighter blue glow */
+            border-radius: 50%;
+            filter: blur(120px);
+            animation: float2 18s infinite ease-in-out alternate;
+            bottom: 15%;
+            right: 10%;
+        }
+        @keyframes float1 {
+            0% { transform: translate(0, 0); }
+            50% { transform: translate(20px, 30px); }
+            100% { transform: translate(0, 0); }
+        }
+        @keyframes float2 {
+            0% { transform: translate(0, 0); }
+            50% { transform: translate(-25px, -15px); }
+            100% { transform: translate(0, 0); }
+        }
+
+        /* Language toggle button styling */
+        .language-toggle {
+            background-color: #4a5568;
+            color: #e2e8f0;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 9999px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
+        }
+        .language-toggle:hover {
+            background-color: #63b3ed;
+            transform: scale(1.05);
+        }
+        .language-toggle:active {
+            transform: scale(0.98);
+        }
+
+        /* Responsive navigation for smaller screens */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none; /* Hide by default on small screens */
+                flex-direction: column;
+                width: 100%;
+                background-color: #2d3748;
+                position: absolute;
+                top: 64px; /* Below header */
+                left: 0;
+                padding: 16px;
+                border-radius: 0 0 16px 16px;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            }
+            .nav-links.active {
+                display: flex; /* Show when active */
+            }
+            .hamburger {
+                display: block; /* Show hamburger icon */
+            }
+        }
+        @media (min-width: 769px) {
+            .nav-links {
+                display: flex !important; /* Always show on larger screens */
+            }
+            .hamburger {
+                display: none; /* Hide hamburger icon */
+            }
         }
     </style>
 </head>
 <body>
-    <div class="min-h-screen flex flex-col items-center py-10 px-4 sm:px-6 lg:px-8">
-        <!-- Header Section -->
-        <header class="w-full max-w-4xl text-center mb-12">
-            <h1 class="text-5xl sm:text-6xl font-extrabold text-white mb-4 drop-shadow-lg">
-                My Roblox Portfolio
-            </h1>
-            <p class="text-xl sm:text-2xl text-blue-300">
-                Showcasing my work in GFX, Server Administration, Moderation, and Animation.
+    <div class="min-h-screen flex flex-col items-center py-10 px-4 sm:px-6 lg:px-8 relative z-10">
+        <!-- Hero Section -->
+        <header class="w-full max-w-5xl text-center mb-16 relative overflow-hidden rounded-3xl p-8 sm:p-12 bg-gradient-to-br from-gray-900 to-gray-700 shadow-2xl animate-fade-in">
+            <div class="hero-background"></div>
+            <div class="flex justify-between items-center mb-6">
+                <h1 class="text-5xl sm:text-7xl font-extrabold text-white leading-tight drop-shadow-lg">
+                    <span id="heroTitle">My Digital Creations</span>
+                </h1>
+                <button id="languageToggle" class="language-toggle">
+                    EN / IT
+                </button>
+            </div>
+            <p class="text-xl sm:text-2xl text-blue-300 mb-8" id="heroSubtitle">
+                Crafting engaging experiences and robust solutions.
             </p>
+            <nav class="w-full">
+                <div class="flex justify-end items-center md:hidden">
+                    <button id="hamburger" class="hamburger text-white text-3xl focus:outline-none">
+                        &#9776; <!-- Hamburger icon -->
+                    </button>
+                </div>
+                <ul id="navLinks" class="nav-links flex flex-wrap justify-center gap-4 text-lg font-semibold">
+                    <li><a href="#gfx" class="text-blue-200 hover:text-blue-500 transition duration-300 px-4 py-2 rounded-full hover:bg-gray-800" id="navGfx">Graphics (GFX)</a></li>
+                    <li><a href="#web-dev" class="text-green-200 hover:text-green-500 transition duration-300 px-4 py-2 rounded-full hover:bg-gray-800" id="navWebDev">Web Developing</a></li>
+                    <li><a href="#discord-setup" class="text-purple-200 hover:text-purple-500 transition duration-300 px-4 py-2 rounded-full hover:bg-gray-800" id="navDiscordSetup">Discord Setup</a></li>
+                    <li><a href="#discord-mod" class="text-yellow-200 hover:text-yellow-500 transition duration-300 px-4 py-2 rounded-full hover:bg-gray-800" id="navDiscordMod">Discord Moderator</a></li>
+                    <li><a href="#discord-admin" class="text-red-200 hover:text-red-500 transition duration-300 px-4 py-2 rounded-full hover:bg-gray-800" id="navDiscordAdmin">Discord Admin</a></li>
+                    <li><a href="#animation" class="text-pink-200 hover:text-pink-500 transition duration-300 px-4 py-2 rounded-full hover:bg-gray-800" id="navAnimation">Animation</a></li>
+                    <li><a href="#contact" class="text-gray-200 hover:text-gray-500 transition duration-300 px-4 py-2 rounded-full hover:bg-gray-800" id="navContact">Contact</a></li>
+                </ul>
+            </nav>
         </header>
 
         <!-- Main Content Area -->
-        <main class="w-full max-w-4xl bg-gray-800 p-8 rounded-2xl shadow-xl space-y-12">
+        <main class="w-full max-w-5xl bg-gray-800 p-8 rounded-3xl shadow-2xl space-y-16 animate-fade-in">
 
             <!-- GFX Section -->
-            <section id="gfx" class="p-6 bg-gray-900 rounded-xl shadow-lg">
-                <h2 class="text-4xl font-bold text-blue-400 section-title mb-6">Graphics (GFX)</h2>
-                <p class="text-lg text-gray-300 mb-6">
-                    Here you'll find examples of my graphic design work for Roblox, including thumbnails, icons, and renders. I focus on creating eye-catching visuals that stand out.
+            <section id="gfx" class="p-8 bg-gray-900 rounded-2xl shadow-xl card">
+                <h2 class="text-4xl font-bold text-blue-400 section-title mb-8" id="gfxTitle">Graphics (GFX)</h2>
+                <p class="text-lg text-gray-300 mb-8" id="gfxDescription">
+                    Here you'll find examples of my graphic design work, including thumbnails, icons, and renders. I focus on creating eye-catching visuals that stand out and capture attention.
                 </p>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <h3 class="text-2xl font-bold text-gray-300 mb-6" id="gfxExamplesLabel">Examples</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                     <!-- GFX Image Example 1 - Replace src with your image URL -->
-                    <div class="bg-gray-700 rounded-lg overflow-hidden shadow-md group">
-                        <img src="https://cdn.discordapp.com/attachments/962773962482417755/1383496577003552920/Screenshot_2024-10-02_190901.png?ex=684f0118&is=684daf98&hm=5742044fd8590d787b7c1edeb347723fe0a9425ba18aed0e477a40fc0f1ddec0&"
-                             class="w-full h-48 object-cover rounded-t-lg transition-transform duration-300 group-hover:scale-105"
+                    <div class="bg-gray-700 rounded-xl overflow-hidden shadow-md group card">
+                        <img src="https://ik.imagekit.io/y0f4jkssw/Screenshot%202024-11-24%20212305.png?updatedAt=1751129832505"
+                             class="w-full h-56 object-cover rounded-t-xl transition-transform duration-300 group-hover:scale-105"
                              onerror="this.onerror=null;this.src='https://placehold.co/400x250/334155/e2e8f0?text=Image+Load+Error';"
-                        >
-                        <div class="p-4">
-                            <h3 class="text-xl font-semibold text-white mb-2">Game Thumbnail</h3>
-                            <p class="text-gray-400 text-sm">A vibrant thumbnail designed for an adventure game.</p>
+                             alt="GFX Example 1">
+                        <div class="p-5">
+                            <!-- Removed individual title and description -->
                         </div>
                     </div>
                     <!-- GFX Image Example 2 - Replace src with your image URL -->
-                    <div class="bg-gray-700 rounded-lg overflow-hidden shadow-md group">
-                        <img src="https://cdn.discordapp.com/attachments/962773962482417755/1383496577514995896/Screenshot_2024-10-02_191923.png?ex=684f0118&is=684daf98&hm=c804d15766c39636706634cbf908e5fece3486e33f2490368b728d06bb78af46&"
-                             class="w-full h-48 object-cover rounded-t-lg transition-transform duration-300 group-hover:scale-105"
+                    <div class="bg-gray-700 rounded-xl overflow-hidden shadow-md group card">
+                        <img src="https://ik.imagekit.io/y0f4jkssw/Screenshot%202024-10-02%20191338.png?updatedAt=1751129832861"
+                             class="w-full h-56 object-cover rounded-t-xl transition-transform duration-300 group-hover:scale-105"
                              onerror="this.onerror=null;this.src='https://placehold.co/400x250/334155/e2e8f0?text=Image+Load+Error';"
-                        >
-                        <div class="p-4">
-                            <h3 class="text-xl font-semibold text-white mb-2">Profile Picture</h3>
-                            <p class="text-gray-400 text-sm">Custom render for a Roblox avatar profile.</p>
+                             alt="GFX Example 2">
+                        <div class="p-5">
+                            <!-- Removed individual title and description -->
                         </div>
                     </div>
                     <!-- GFX Image Example 3 - Replace src with your image URL -->
-                    <div class="bg-gray-700 rounded-lg overflow-hidden shadow-md group">
-                        <img src="https://cdn.discordapp.com/attachments/962773962482417755/1383496577896939611/Screenshot_2024-11-24_212305.png?ex=684f0118&is=684daf98&hm=78b900913b933197ffee09e2c063878edf98f52b193836a15eb9de97f97af65a&"
-                             class="w-full h-48 object-cover rounded-t-lg transition-transform duration-300 group-hover:scale-105"
+                    <div class="bg-gray-700 rounded-xl overflow-hidden shadow-md group card">
+                        <img src="https://ik.imagekit.io/y0f4jkssw/Screenshot%202024-10-02%20190901.png?updatedAt=1751129832818"
+                             class="w-full h-56 object-cover rounded-t-xl transition-transform duration-300 group-hover:scale-105"
                              onerror="this.onerror=null;this.src='https://placehold.co/400x250/334155/e2e8f0?text=Image+Load+Error';"
-                        >
-                        <div class="p-4">
-                            <h3 class="text-xl font-semibold text-white mb-2">Advertisement Banner</h3>
-                            <p class="text-gray-400 text-sm">Engaging banner for in-game advertisements.</p>
+                             alt="GFX Example 3">
+                        <div class="p-5">
+                            <!-- Removed individual title and description -->
                         </div>
                     </div>
                     <!-- Add more GFX images here by copying the div block above and updating src/alt/text -->
                 </div>
             </section>
 
-            <!-- Server Setup (Admin) Section -->
-            <section id="server-setup" class="p-6 bg-gray-900 rounded-xl shadow-lg">
-                <h2 class="text-4xl font-bold text-green-400 section-title mb-6">Server Setup (Admin)</h2>
-                <p class="text-lg text-gray-300 mb-6">
-                    My expertise includes setting up and configuring Roblox game servers, managing permissions, and implementing administrative tools to ensure smooth operation and player safety. For **Discord-based server administration**, please contact me: <span class="font-bold text-blue-300">Kibrisky</span>.
+            <!-- Web Developing Section -->
+            <section id="web-dev" class="p-8 bg-gray-900 rounded-2xl shadow-xl card">
+                <h2 class="text-4xl font-bold text-green-400 section-title mb-8" id="webDevTitle">Web Developing</h2>
+                <p class="text-lg text-gray-300 mb-8" id="webDevDescription">
+                    I offer comprehensive web development services, from crafting responsive and intuitive user interfaces to building robust back-end systems. My focus is on creating modern, high-performance web solutions tailored to your needs.
                 </p>
-                <ul class="list-disc list-inside space-y-2 text-gray-300 text-base">
-                    <li>Implementing custom admin commands and systems.</li>
-                    <li>Configuring permissions for ranks and roles.</li>
-                    <li>Setting up anti-exploit measures and moderation bots.</li>
-                    <li>Managing server performance and stability.</li>
-                    <li>Experience with popular admin panels like Adonis Admin, HD Admin, etc.</li>
+                <ul class="list-disc list-inside space-y-3 text-gray-300 text-base">
+                    <li id="webDevItem1">Front-end Development (HTML, CSS, JavaScript, React, Vue.js)</li>
+                    <li id="webDevItem2">Back-end Development (Node.js, Python, Database Integration)</li>
+                    <li id="webDevItem3">Full-stack Solutions</li>
+                    <li id="webDevItem4">Responsive Design for all devices</li>
+                    <li id="webDevItem5">API Integration and Development</li>
+                    <li id="webDevItem6">Performance Optimization and SEO Basics</li>
                 </ul>
             </section>
 
-            <!-- Moderator Section -->
-            <section id="moderator" class="p-6 bg-gray-900 rounded-xl shadow-lg">
-                <h2 class="text-4xl font-bold text-yellow-400 section-title mb-6">Moderator</h2>
-                <p class="text-lg text-gray-300 mb-6">
-                    Experienced in maintaining a positive and safe community environment. My responsibilities as a moderator include enforcing rules, handling player reports, and resolving conflicts efficiently. For **Discord-based moderation services**, you can reach me: <span class="font-bold text-blue-300">Kibrisky</span>.
+            <!-- Discord Server Setup Section -->
+            <section id="discord-setup" class="p-8 bg-gray-900 rounded-2xl shadow-xl card">
+                <h2 class="text-4xl font-bold text-purple-400 section-title mb-8" id="discordSetupTitle">Discord Server Setup (from Scratch)</h2>
+                <p class="text-lg text-gray-300 mb-8" id="discordSetupDescription">
+                    Need a Discord server built from the ground up? I specialize in creating fully optimized and secure Discord communities tailored to your specific goals, whether for gaming, business, or personal use.
                 </p>
-                <ul class="list-disc list-inside space-y-2 text-gray-300 text-base">
-                    <li>Active monitoring of in-game chat and player behavior.</li>
-                    <li>Handling reports of rule violations and issuing appropriate punishments.</li>
-                    <li>Mediating disputes between players.</li>
-                    <li>Knowledge of Roblox Community Standards.</li>
-                    <li>Quick and decisive action in high-pressure situations.</li>
+                <ul class="list-disc list-inside space-y-3 text-gray-300 text-base">
+                    <li id="discordSetupItem1">Custom server structure and channel organization.</li>
+                    <li id="discordSetupItem2">Role and permission hierarchy setup for seamless management.</li>
+                    <li id="discordSetupItem3">Essential bot integration (moderation, utility, entertainment).</li>
+                    <li id="discordSetupItem4">Advanced security measures and anti-raid configurations.</li>
+                    <li id="discordSetupItem5">Welcome systems and onboarding flows.</li>
+                    <li id="discordSetupItem6">Thematic design and custom emojis.</li>
                 </ul>
+            </section>
+
+            <!-- Discord Moderator Section -->
+            <section id="discord-mod" class="p-8 bg-gray-900 rounded-2xl shadow-xl card">
+                <h2 class="text-4xl font-bold text-yellow-400 section-title mb-8" id="discordModTitle">Discord Moderator</h2>
+                <p class="text-lg text-gray-300 mb-8" id="discordModDescription">
+                    I provide professional Discord moderation services to ensure a safe, positive, and engaging environment for your community. My approach focuses on proactive engagement and fair enforcement of rules.
+                </p>
+                <ul class="list-disc list-inside space-y-3 text-gray-300 text-base">
+                    <li id="discordModItem1">Active monitoring of chat and voice channels.</li>
+                    <li id="discordModItem2">Enforcing server rules and community guidelines.</li>
+                    <li id="discordModItem3">Handling user reports and resolving conflicts.</li>
+                    <li id="discordModItem4">Promoting positive interactions and community engagement.</li>
+                    <li id="discordModItem5">Identifying and addressing spam, harassment, and other disruptive behaviors.</li>
+                </ul>
+                <p class="text-sm italic text-gray-400 mt-6" id="discordModNote">
+                    I am extensively trained in community management and moderation best practices. If you don't have an existing moderation scheme, I will implement my proven framework to ensure optimal community health.
+                </p>
+            </section>
+
+            <!-- Discord Admin Section -->
+            <section id="discord-admin" class="p-8 bg-gray-900 rounded-2xl shadow-xl card">
+                <h2 class="text-4xl font-bold text-red-400 section-title mb-8" id="discordAdminTitle">Discord Administrator</h2>
+                <p class="text-lg text-gray-300 mb-8" id="discordAdminDescription">
+                    As a Discord Administrator, I offer comprehensive server management, ensuring your community runs smoothly and efficiently. This includes advanced configuration, bot management, and strategic planning for growth.
+                </p>
+                <ul class="list-disc list-inside space-y-3 text-gray-300 text-base">
+                    <li id="discordAdminItem1">Full server configuration and optimization.</li>
+                    <li id="discordAdminItem2">Advanced bot setup and custom command implementation.</li>
+                    <li id="discordAdminItem3">Role management, permission fine-tuning, and audit log monitoring.</li>
+                    <li id="discordAdminItem4">Community event planning and execution.</li>
+                    <li id="discordAdminItem5">Strategic growth initiatives and analytics monitoring.</li>
+                    <li id="discordAdminItem6">Comprehensive security audits and incident response.</li>
+                </ul>
+                <p class="text-sm italic text-gray-400 mt-6" id="discordAdminNote">
+                    My administrative expertise is backed by extensive training. Should your community lack a predefined administrative structure, I will deploy my robust and effective operational scheme.
+                </p>
             </section>
 
             <!-- Basic Animation Section -->
-            <section id="animation" class="p-6 bg-gray-900 rounded-xl shadow-lg">
-                <h2 class="text-4xl font-bold text-purple-400 section-title mb-6">Basic Animation</h2>
-                <p class="text-lg text-gray-300 mb-6">
-                    I have fundamental skills in creating smooth and engaging animations for Roblox characters, tools, and environmental elements, enhancing the overall player experience.
+            <section id="animation" class="p-8 bg-gray-900 rounded-2xl shadow-xl card">
+                <h2 class="text-4xl font-bold text-pink-400 section-title mb-8" id="animationTitle">Basic Animation</h2>
+                <p class="text-lg text-gray-300 mb-8" id="animationDescription">
+                    I possess fundamental skills in creating smooth and engaging animations for characters, tools, and environmental elements, significantly enhancing the overall user experience in digital environments.
                 </p>
-                <ul class="list-disc list-inside space-y-2 text-gray-300 text-base">
-                    <li>Character idle, walk, run cycles.</li>
-                    <li>Tool animations (e.g., swinging a sword, using a pickaxe).</li>
-                    <li>Simple environmental animations (e.g., rotating objects).</li>
-                    <li>Understanding of animation principles for fluid movement.</li>
+                <ul class="list-disc list-inside space-y-3 text-gray-300 text-base">
+                    <li id="animationItem1">Character idle, walk, run cycles for fluid movement.</li>
+                    <li id="animationItem2">Tool animations (e.g., swinging a sword, using a pickaxe).</li>
+                    <li id="animationItem3">Simple environmental animations (e.g., rotating objects, particle effects).</li>
+                    <li id="animationItem4">Understanding of animation principles for realistic and expressive motion.</li>
                 </ul>
             </section>
         </main>
 
         <!-- Footer Section -->
-        <footer class="w-full max-w-4xl text-center mt-12 py-6 border-t-2 border-gray-700">
-            <p class="text-gray-500 text-lg">
-                &copy; 2025 My Roblox Portfolio. All rights reserved.
+        <footer id="contact" class="w-full max-w-5xl text-center mt-16 py-8 border-t-2 border-gray-700 bg-gray-800 rounded-b-3xl shadow-inner animate-fade-in">
+            <p class="text-gray-500 text-lg mb-2" id="footerCopyright">
+                &copy; 2025 My Digital Creations. All rights reserved.
             </p>
-            <p class="text-gray-500 text-sm mt-2">
-                Contact: your.email@example.com (or via Discord: Kibrisky)
+            <p class="text-gray-500 text-md" id="footerContact">
+                Contact: <span class="font-bold text-blue-300">Kibrisky</span> (Discord)
             </p>
         </footer>
     </div>
+
+    <script>
+        // Language translation data
+        const translations = {
+            en: {
+                pageTitle: "My Portfolio",
+                heroTitle: "My Digital Creations",
+                heroSubtitle: "Crafting engaging experiences and robust solutions.",
+                navGfx: "Graphics (GFX)",
+                navWebDev: "Web Developing",
+                navDiscordSetup: "Discord Setup",
+                navDiscordMod: "Discord Moderator",
+                navDiscordAdmin: "Discord Admin",
+                navAnimation: "Animation",
+                navContact: "Contact",
+                gfxTitle: "Graphics (GFX)",
+                gfxDescription: "Here you'll find examples of my graphic design work, including thumbnails, icons, and renders. I focus on creating eye-catching visuals that stand out and capture attention.",
+                gfxExamplesLabel: "Examples", // New translation key
+                webDevTitle: "Web Developing",
+                webDevDescription: "I offer comprehensive web development services, from crafting responsive and intuitive user interfaces to building robust back-end systems. My focus is on creating modern, high-performance web solutions tailored to your needs.",
+                webDevItem1: "Front-end Development (HTML, CSS, JavaScript, React, Vue.js)",
+                webDevItem2: "Back-end Development (Node.js, Python, Database Integration)",
+                webDevItem3: "Full-stack Solutions",
+                webDevItem4: "Responsive Design for all devices",
+                webDevItem5: "API Integration and Development",
+                webDevItem6: "Performance Optimization and SEO Basics",
+                discordSetupTitle: "Discord Server Setup (from Scratch)",
+                discordSetupDescription: "Need a Discord server built from the ground up? I specialize in creating fully optimized and secure Discord communities tailored to your specific goals, whether for gaming, business, or personal use.",
+                discordSetupItem1: "Custom server structure and channel organization.",
+                discordSetupItem2: "Role and permission hierarchy setup for seamless management.",
+                discordSetupItem3: "Essential bot integration (moderation, utility, entertainment).",
+                discordSetupItem4: "Advanced security measures and anti-raid configurations.",
+                discordSetupItem5: "Welcome systems and onboarding flows.",
+                discordSetupItem6: "Thematic design and custom emojis.",
+                discordModTitle: "Discord Moderator",
+                discordModDescription: "I provide professional Discord moderation services to ensure a safe, positive, and engaging environment for your community. My approach focuses on proactive engagement and fair enforcement of rules.",
+                discordModItem1: "Active monitoring of chat and voice channels.",
+                discordModItem2: "Enforcing server rules and community guidelines.",
+                discordModItem3: "Handling user reports and resolving conflicts.",
+                discordModItem4: "Promoting positive interactions and community engagement.",
+                discordModItem5: "Identifying and addressing spam, harassment, and other disruptive behaviors.",
+                discordModNote: "I am extensively trained in community management and moderation best practices. If you don't have an existing moderation scheme, I will implement my proven framework to ensure optimal community health.",
+                discordAdminTitle: "Discord Administrator",
+                discordAdminDescription: "As a Discord Administrator, I offer comprehensive server management, ensuring your community runs smoothly and efficiently. This includes advanced configuration, bot management, and strategic planning for growth.",
+                discordAdminItem1: "Full server configuration and optimization.",
+                discordAdminItem2: "Advanced bot setup and custom command implementation.",
+                discordAdminItem3: "Role management, permission fine-tuning, and audit log monitoring.",
+                discordAdminItem4: "Community event planning and execution.",
+                discordAdminItem5: "Strategic growth initiatives and analytics monitoring.",
+                discordAdminItem6: "Comprehensive security audits and incident response.",
+                discordAdminNote: "My administrative expertise is backed by extensive training. Should your community lack a predefined administrative structure, I will deploy my robust and effective operational scheme.",
+                animationTitle: "Basic Animation",
+                animationDescription: "I possess fundamental skills in creating smooth and engaging animations for characters, tools, and environmental elements, significantly enhancing the overall user experience in digital environments.",
+                animationItem1: "Character idle, walk, run cycles for fluid movement.",
+                animationItem2: "Tool animations (e.g., swinging a sword, using a pickaxe).",
+                animationItem3: "Simple environmental animations (e.g., rotating objects, particle effects).",
+                animationItem4: "Understanding of animation principles for realistic and expressive motion.",
+                footerCopyright: "&copy; 2025 My Digital Creations. All rights reserved.",
+                footerContact: "Contact: Kibrisky (Discord)"
+            },
+            it: {
+                pageTitle: "Il Mio Portfolio",
+                heroTitle: "Le Mie Creazioni Digitali",
+                heroSubtitle: "Creazione di esperienze coinvolgenti e soluzioni robuste.",
+                navGfx: "Grafica (GFX)",
+                navWebDev: "Sviluppo Web",
+                navDiscordSetup: "Configurazione Discord",
+                navDiscordMod: "Moderatore Discord",
+                navDiscordAdmin: "Amministratore Discord",
+                navAnimation: "Animazione",
+                navContact: "Contatto",
+                gfxTitle: "Grafica (GFX)",
+                gfxDescription: "Qui troverai esempi del mio lavoro di progettazione grafica, incluse miniature, icone e render. Mi concentro sulla creazione di elementi visivi accattivanti che si distinguono e catturano l'attenzione.",
+                gfxExamplesLabel: "Esempi", // New translation key
+                webDevTitle: "Sviluppo Web",
+                webDevDescription: "Offro servizi completi di sviluppo web, dalla creazione di interfacce utente reattive e intuitive alla costruzione di sistemi back-end robusti. Il mio obiettivo è creare soluzioni web moderne e ad alte prestazioni su misura per le tue esigenze.",
+                webDevItem1: "Sviluppo Front-end (HTML, CSS, JavaScript, React, Vue.js)",
+                webDevItem2: "Sviluppo Back-end (Node.js, Python, Integrazione Database)",
+                webDevItem3: "Soluzioni Full-stack",
+                webDevItem4: "Design Reattivo per tutti i dispositivi",
+                webDevItem5: "Integrazione e Sviluppo API",
+                webDevItem6: "Ottimizzazione delle Prestazioni e Basi SEO",
+                discordSetupTitle: "Configurazione Server Discord (da Zero)",
+                discordSetupDescription: "Hai bisogno di un server Discord costruito da zero? Sono specializzato nella creazione di comunità Discord completamente ottimizzate e sicure, su misura per i tuoi obiettivi specifici, che si tratti di giochi, affari o uso personale.",
+                discordSetupItem1: "Struttura del server personalizzata e organizzazione dei canali.",
+                discordSetupItem2: "Configurazione della gerarchia di ruoli e permessi per una gestione senza interruzioni.",
+                discordSetupItem3: "Integrazione di bot essenziali (moderazione, utilità, intrattenimento).",
+                discordSetupItem4: "Misure di sicurezza avanzate e configurazioni anti-raid.",
+                discordSetupItem5: "Sistemi di benvenuto e flussi di onboarding.",
+                discordSetupItem6: "Design tematico ed emoji personalizzate.",
+                discordModTitle: "Moderatore Discord",
+                discordModDescription: "Fornisco servizi professionali di moderazione Discord per garantire un ambiente sicuro, positivo e coinvolgente per la tua comunità. Il mio approccio si concentra sull'engagement proattivo e sull'applicazione equa delle regole.",
+                discordModItem1: "Monitoraggio attivo delle chat e dei canali vocali.",
+                discordModItem2: "Applicazione delle regole del server e delle linee guida della comunità.",
+                discordModItem3: "Gestione delle segnalazioni degli utenti e risoluzione dei conflitti.",
+                discordModItem4: "Promozione di interazioni positive e coinvolgimento della comunità.",
+                discordModItem5: "Identificazione e gestione di spam, molestie e altri comportamenti di disturbo.",
+                discordModNote: "Sono ampiamente formato nella gestione della comunità e nelle migliori pratiche di moderazione. Se non disponi di uno schema di moderazione esistente, implementerò il mio framework collaudato per garantire la salute ottimale della comunità.",
+                discordAdminTitle: "Amministratore Discord",
+                discordAdminDescription: "Come Amministratore Discord, offro una gestione completa del server, assicurando che la tua comunità funzioni in modo fluido ed efficiente. Questo include configurazione avanzata, gestione dei bot e pianificazione strategica per la crescita.",
+                discordAdminItem1: "Configurazione e ottimizzazione complete del server.",
+                discordAdminItem2: "Configurazione avanzata dei bot e implementazione di comandi personalizzati.",
+                discordAdminItem3: "Gestione dei ruoli, ottimizzazione dei permessi e monitoraggio dei log di controllo.",
+                discordAdminItem4: "Pianificazione ed esecuzione di eventi della comunità.",
+                discordAdminItem5: "Iniziative di crescita strategica e monitoraggio delle analisi.",
+                discordAdminItem6: "Audit di sicurezza completi e risposta agli incidenti.",
+                discordAdminNote: "La mia esperienza amministrativa è supportata da una formazione estesa. Se la tua comunità non dispone di una struttura amministrativa predefinita, implementerò il mio schema operativo robusto ed efficace.",
+                animationTitle: "Animazione di Base",
+                animationDescription: "Possiedo competenze fondamentali nella creazione di animazioni fluide e coinvolgenti per personaggi, strumenti ed elementi ambientali, migliorando significativamente l'esperienza utente complessiva negli ambienti digitali.",
+                animationItem1: "Cicli di inattività, camminata, corsa dei personaggi per un movimento fluido.",
+                animationItem2: "Animazioni degli strumenti (es. oscillare una spada, usare un piccone).",
+                animationItem3: "Animazioni ambientali semplici (es. oggetti rotanti, effetti particellari).",
+                animationItem4: "Comprensione dei principi di animazione per un movimento realistico ed espressivo.",
+                footerCopyright: "&copy; 2025 Le Mie Creazioni Digitali. Tutti i diritti riservati.",
+                footerContact: "Contatto: Kibrisky (Discord)"
+            }
+        };
+
+        // Function to set text content based on current language
+        function setLanguage(lang) {
+            const elements = document.querySelectorAll('[id]');
+            elements.forEach(element => {
+                const key = element.id;
+                if (translations[lang][key]) {
+                    element.innerHTML = translations[lang][key];
+                }
+            });
+            // Update the language toggle button text
+            const langToggle = document.getElementById('languageToggle');
+            langToggle.textContent = lang === 'en' ? 'EN / IT' : 'IT / EN';
+            // Store the chosen language in local storage
+            localStorage.setItem('portfolioLanguage', lang);
+        }
+
+        // Initialize language
+        let currentLang = localStorage.getItem('portfolioLanguage') || 'en';
+        setLanguage(currentLang);
+
+        // Language toggle event listener
+        document.getElementById('languageToggle').addEventListener('click', () => {
+            currentLang = currentLang === 'en' ? 'it' : 'en';
+            setLanguage(currentLang);
+        });
+
+        // Hamburger menu functionality for mobile
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('navLinks');
+
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // Close mobile menu when a nav link is clicked
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 768) {
+                    navLinks.classList.remove('active');
+                }
+            });
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
 </body>
 </html>
