@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="pageTitle">My Portfolio</title>
-    <!-- Tailwind CSS CDN -->
+    <!-- Tailwind CSS CDN for utility classes -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* Custom styles for the portfolio */
@@ -138,6 +138,28 @@
             .hamburger {
                 display: block; /* Show hamburger icon */
             }
+            /* Adjust hero title and subtitle for smaller screens */
+            #heroTitle {
+                font-size: 3rem; /* Smaller font size */
+            }
+            #heroSubtitle {
+                font-size: 1.25rem; /* Smaller font size */
+            }
+            /* Stack content in columns on small screens */
+            .grid-cols-1-sm-2-lg-3 {
+                grid-template-columns: 1fr;
+            }
+            .section-title {
+                text-align: center;
+            }
+            .section-title::after {
+                left: 50%;
+                transform: translateX(-50%) scaleX(0);
+                transform-origin: center;
+            }
+            .section-title:hover::after {
+                transform: translateX(-50%) scaleX(1);
+            }
         }
         @media (min-width: 769px) {
             .nav-links {
@@ -145,6 +167,13 @@
             }
             .hamburger {
                 display: none; /* Hide hamburger icon */
+            }
+             /* Revert hero title and subtitle for larger screens if they were specifically adjusted for small screens */
+            #heroTitle {
+                font-size: 4rem; /* Revert to original or desired larger size */
+            }
+            #heroSubtitle {
+                font-size: 1.5rem; /* Revert to original or desired larger size */
             }
         }
     </style>
@@ -352,6 +381,12 @@
                 discordSetupDescription: "Need a Discord server built from the ground up? I specialize in creating fully optimized and secure Discord communities tailored to your specific goals, whether for gaming, business, or personal use.",
                 discordSetupItem1: "Custom server structure and channel organization.",
                 discordSetupItem2: "Role and permission hierarchy setup for seamless management.",
+                GfxImage1Title: "Thumbnail Design",
+                GfxImage1Desc: "A vibrant thumbnail designed for a gaming channel.",
+                GfxImage2Title: "Custom Icon",
+                GfxImage2Desc: "Unique icon created for a Discord bot.",
+                GfxImage3Title: "3D Render",
+                GfxImage3Desc: "A high-quality 3D render for promotional material.",
                 discordSetupItem3: "Essential bot integration (moderation, utility, entertainment).",
                 discordSetupItem4: "Advanced security measures and anti-raid configurations.",
                 discordSetupItem5: "Welcome systems and onboarding flows.",
@@ -406,6 +441,12 @@
                 webDevItem6: "Ottimizzazione delle Prestazioni e Basi SEO",
                 discordSetupTitle: "Configurazione Server Discord (da Zero)",
                 discordSetupDescription: "Hai bisogno di un server Discord costruito da zero? Sono specializzato nella creazione di comunità Discord completamente ottimizzate e sicure, su misura per i tuoi obiettivi specifici, che si tratti di giochi, affari o uso personale.",
+                GfxImage1Title: "Design Miniatura",
+                GfxImage1Desc: "Una miniatura vivace progettata per un canale di gioco.",
+                GfxImage2Title: "Icona Personalizzata",
+                GfxImage2Desc: "Icona unica creata per un bot Discord.",
+                GfxImage3Title: "Render 3D",
+                GfxImage3Desc: "Un render 3D di alta qualità per materiale promozionale.",
                 discordSetupItem1: "Struttura del server personalizzata e organizzazione dei canali.",
                 discordSetupItem2: "Configurazione della gerarchia di ruoli e permessi per una gestione senza interruzioni.",
                 discordSetupItem3: "Integrazione di bot essenziali (moderazione, utilità, intrattenimento).",
@@ -478,19 +519,8 @@
         navLinks.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => {
                 if (window.innerWidth <= 768) {
-                    navLinks.classList.remove('active');
+                    navLinks.classList.remove('active'); // Close the menu
                 }
-            });
-        });
-
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
             });
         });
     </script>
